@@ -555,5 +555,382 @@ window.REZEPTE = [
       "Zucchini, grüne Bohnen, weiße Bohnen und Nudeln dazugeben und weitere 10 Minuten kochen, bis die Nudeln gar sind.",
       "Mit Salz und Pfeffer abschmecken. Mit geriebenem Parmesan und Basilikum servieren."
     ]
+  },
+  {
+    id: "gemuesecurry",
+    name: "Kichererbsen-Gemüse-Curry",
+    kurz: "Vegetarisches Curry mit Süßkartoffel, Spinat und Kokosmilch.",
+    zeit: 35, aktiv: 20, level: "einfach", portionen: 4, kcal: 520,
+    tags: ["veg"],
+    bild: { artist: "Andy Li", lizenz: "CC0", url: "https://commons.wikimedia.org/wiki/File:Chana_Masala_-_Mohammed_-_Spice_Of_Life_2024-05-27.jpg" },
+    zutaten: [
+      { a: 1, u: "", n: "Zwiebel" },
+      { a: 2, u: "Zehen", n: "Knoblauch" },
+      { a: 1, u: "Stück", n: "Ingwer (ca. 2 cm)" },
+      { a: 1, u: "", n: "Süßkartoffel (ca. 400 g)" },
+      { a: 1, u: "", n: "rote Paprika" },
+      { a: 2, u: "EL", n: "Öl" },
+      { a: 2, u: "EL", n: "mildes Currypulver" },
+      { a: 1, u: "TL", n: "gemahlene Kurkuma" },
+      { a: 400, u: "ml", n: "Kokosmilch (1 Dose)" },
+      { a: 400, u: "g", n: "stückige Tomaten (1 Dose)" },
+      { a: 800, u: "g", n: "Kichererbsen (2 Dosen, abgetropft)" },
+      { a: 100, u: "g", n: "junger Blattspinat" },
+      { a: null, u: "", n: "Salz, Saft von ½ Limette, frischer Koriander" },
+      { s: "Beilage" },
+      { a: 300, u: "g", n: "Basmatireis oder 4 Naan-Brote" }
+    ],
+    schritte: [
+      "Reis nach Packungsangabe kochen.",
+      "Zwiebel würfeln, Knoblauch und Ingwer fein reiben. Süßkartoffel schälen und in 1,5 cm große Würfel schneiden, Paprika in Stücke schneiden.",
+      "Öl in einem großen Topf erhitzen. Zwiebel 3 Minuten glasig dünsten, dann Knoblauch, Ingwer, Currypulver und Kurkuma 1 Minute unter Rühren anrösten.",
+      "Süßkartoffel und Paprika dazugeben und kurz mitbraten. Kokosmilch und Tomaten einrühren, aufkochen und zugedeckt 15 Minuten köcheln lassen, bis die Süßkartoffel weich ist.",
+      "Kichererbsen dazugeben und 5 Minuten mitköcheln lassen.",
+      "Spinat unterheben, bis er zusammenfällt. Mit Salz und Limettensaft abschmecken, mit Koriander bestreuen und mit Reis oder Naan servieren."
+    ]
+  },
+  {
+    id: "pesto",
+    name: "Nudeln mit Pesto",
+    kurz: "Selbstgemachtes Basilikum-Pesto – fertig in 20 Minuten.",
+    zeit: 20, aktiv: 15, level: "einfach", portionen: 4, kcal: 720,
+    tags: ["veg", "schnell", "kinder"],
+    bild: { artist: "Auregann", lizenz: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Pasta_al_pesto_nisseno.jpg" },
+    zutaten: [
+      { a: 500, u: "g", n: "Nudeln (z. B. Trofie, Linguine oder Penne)" },
+      { s: "Pesto Genovese" },
+      { a: 2, u: "Töpfe", n: "Basilikum (ca. 60 g Blätter)" },
+      { a: 40, u: "g", n: "Pinienkerne" },
+      { a: 1, u: "Zehe", n: "Knoblauch" },
+      { a: 50, u: "g", n: "Parmesan, gerieben" },
+      { a: 120, u: "ml", n: "gutes Olivenöl" },
+      { a: null, u: "", n: "Salz, 1 Spritzer Zitronensaft" },
+      { s: "Zum Servieren" },
+      { a: 30, u: "g", n: "Parmesan" },
+      { a: 250, u: "g", n: "Kirschtomaten (optional)" }
+    ],
+    schritte: [
+      "Nudeln in reichlich Salzwasser nach Packungsangabe bissfest kochen.",
+      "Pinienkerne in einer Pfanne ohne Fett goldbraun rösten und abkühlen lassen – dabeibleiben, sie verbrennen schnell.",
+      "Basilikumblätter abzupfen. Mit Pinienkernen, Knoblauch, Parmesan, einer Prise Salz und dem Olivenöl im Mixer oder mit dem Stabmixer kurz zu einer groben Paste mixen. Nicht zu lange mixen, sonst wird das Basilikum bitter.",
+      "Vor dem Abgießen eine Tasse Nudelwasser abnehmen.",
+      "Nudeln abgießen und im Topf mit dem Pesto und 3–4 EL Nudelwasser mischen, bis alles cremig glänzt. Mit Zitronensaft abschmecken.",
+      "Mit halbierten Kirschtomaten und Parmesan servieren. Übriges Pesto hält sich mit Öl bedeckt im Glas 1 Woche im Kühlschrank."
+    ]
+  },
+  {
+    id: "sahnenudeln",
+    name: "Nudeln mit Schinken-Sahne-Soße",
+    kurz: "Cremige Soße mit Kochschinken und Erbsen – ein Kinder-Hit.",
+    zeit: 25, aktiv: 20, level: "einfach", portionen: 4, kcal: 790,
+    tags: ["schnell", "kinder"],
+    bild: { artist: "Peachyeung316", lizenz: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Mushroom_and_ham_pasta.jpg" },
+    zutaten: [
+      { a: 500, u: "g", n: "Nudeln (z. B. Tagliatelle, Spaghetti oder Farfalle)" },
+      { a: 200, u: "g", n: "Kochschinken, gewürfelt" },
+      { a: 1, u: "", n: "Zwiebel" },
+      { a: 200, u: "g", n: "Champignons (optional)" },
+      { a: 1, u: "EL", n: "Butter" },
+      { a: 200, u: "ml", n: "Sahne" },
+      { a: 150, u: "ml", n: "Milch" },
+      { a: 100, u: "g", n: "TK-Erbsen" },
+      { a: 50, u: "g", n: "Parmesan, gerieben" },
+      { a: null, u: "", n: "Salz, Pfeffer, Muskat, Petersilie" }
+    ],
+    schritte: [
+      "Nudeln in Salzwasser nach Packungsangabe bissfest kochen.",
+      "Zwiebel fein würfeln, Champignons in Scheiben schneiden.",
+      "Butter in einer großen Pfanne erhitzen. Zwiebel und Schinken 3 Minuten anbraten, dann die Champignons dazugeben und 4 Minuten mitbraten.",
+      "Sahne und Milch angießen, Erbsen dazugeben und 5 Minuten leicht köcheln lassen, bis die Soße etwas eindickt.",
+      "Parmesan einrühren und mit Salz, Pfeffer und Muskat abschmecken. Ist die Soße zu dick, einen Schuss Nudelwasser dazugeben.",
+      "Abgetropfte Nudeln in der Soße schwenken und mit Petersilie servieren."
+    ]
+  },
+  {
+    id: "schnitzelpommes",
+    name: "Schnitzel mit Pommes",
+    kurz: "Knuspriges Schnitzel mit selbstgemachten Ofen-Pommes.",
+    zeit: 55, aktiv: 30, level: "einfach", portionen: 4, kcal: 820,
+    tags: ["kinder"],
+    bild: { artist: "Anton Porsche", lizenz: "CC BY 4.0", url: "https://commons.wikimedia.org/wiki/File:Schnitzel-Mit-Pommes.jpg" },
+    zutaten: [
+      { s: "Ofen-Pommes" },
+      { a: 1, u: "kg", n: "festkochende Kartoffeln" },
+      { a: 3, u: "EL", n: "Öl" },
+      { a: 1, u: "TL", n: "Paprikapulver edelsüß" },
+      { a: null, u: "", n: "Salz" },
+      { s: "Schnitzel" },
+      { a: 4, u: "", n: "Schweineschnitzel (à ca. 150 g)" },
+      { a: 50, u: "g", n: "Mehl" },
+      { a: 2, u: "", n: "Eier" },
+      { a: 2, u: "EL", n: "Milch" },
+      { a: 100, u: "g", n: "Semmelbrösel" },
+      { a: 150, u: "ml", n: "Öl oder Butterschmalz zum Braten" },
+      { a: null, u: "", n: "Salz und Pfeffer" },
+      { s: "Dazu" },
+      { a: 1, u: "", n: "Zitrone" },
+      { a: 1, u: "", n: "kleiner Kopfsalat oder Gurkensalat" },
+      { a: null, u: "", n: "Ketchup und Mayo nach Wunsch" }
+    ],
+    schritte: [
+      "Backofen auf 220 °C Ober-/Unterhitze (200 °C Umluft) vorheizen.",
+      "Kartoffeln schälen, in 1 cm dicke Stäbchen schneiden, 10 Minuten in kaltes Wasser legen und danach gründlich trocken tupfen – so werden sie knusprig.",
+      "Kartoffelstäbchen mit Öl und Paprikapulver mischen, auf einem Blech mit Backpapier nebeneinander verteilen und ca. 30–35 Minuten backen, nach der Hälfte wenden. Erst nach dem Backen salzen.",
+      "In der Zwischenzeit die Schnitzel zwischen Frischhaltefolie flach klopfen und mit Salz und Pfeffer würzen.",
+      "Mehl, mit Milch verquirlte Eier und Semmelbrösel in drei tiefe Teller geben. Schnitzel nacheinander darin wenden.",
+      "Öl in einer großen Pfanne erhitzen und die Schnitzel darin pro Seite 2–3 Minuten goldbraun braten. Auf Küchenpapier abtropfen lassen.",
+      "Mit Pommes, Zitronenspalten und Salat servieren."
+    ]
+  },
+  {
+    id: "carbonara",
+    name: "Spaghetti Carbonara",
+    kurz: "Das Original aus Rom – mit Ei und Käse, ganz ohne Sahne.",
+    zeit: 25, aktiv: 20, level: "mittel", portionen: 4, kcal: 760,
+    tags: ["schnell"],
+    bild: { artist: "Tamorlan", lizenz: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Spaghetti_alla_Carbonara_(Madrid).JPG" },
+    zutaten: [
+      { a: 500, u: "g", n: "Spaghetti" },
+      { a: 150, u: "g", n: "Guanciale oder Pancetta (alternativ Speckwürfel)" },
+      { a: 4, u: "", n: "Eigelb" },
+      { a: 2, u: "", n: "ganze Eier" },
+      { a: 80, u: "g", n: "Pecorino oder Parmesan, fein gerieben" },
+      { a: null, u: "", n: "reichlich frisch gemahlener schwarzer Pfeffer, Salz" }
+    ],
+    schritte: [
+      "Spaghetti in reichlich Salzwasser nach Packungsangabe bissfest kochen.",
+      "Eigelbe, Eier und den Käse in einer Schüssel verquirlen und kräftig pfeffern.",
+      "Guanciale in Streifen oder Würfel schneiden und in einer großen Pfanne ohne Fett bei mittlerer Hitze knusprig auslassen. Pfanne vom Herd nehmen.",
+      "Vor dem Abgießen eine Tasse Nudelwasser abnehmen.",
+      "Die abgetropften Spaghetti in die Pfanne zum Speck geben und gut schwenken. Die Pfanne muss vom Herd sein, sonst stockt das Ei zu Rührei.",
+      "Die Eimischung und 3–4 EL Nudelwasser dazugeben und alles zügig vermengen, bis eine cremige Soße entsteht. Bei Bedarf mehr Nudelwasser dazugeben.",
+      "Sofort servieren und mit Käse und Pfeffer bestreuen."
+    ]
+  },
+  {
+    id: "tomatensosse",
+    name: "Nudeln mit Tomatensoße",
+    kurz: "Einfache, fruchtige Tomatensoße – geht immer.",
+    zeit: 30, aktiv: 10, level: "einfach", portionen: 4, kcal: 560,
+    tags: ["veg", "schnell", "kinder"],
+    bild: { artist: "10Rosso", lizenz: "CC BY 2.0", url: "https://commons.wikimedia.org/wiki/File:Spaghetti_al_pomodoro_5.jpg" },
+    zutaten: [
+      { a: 500, u: "g", n: "Spaghetti oder andere Nudeln" },
+      { a: 1, u: "", n: "Zwiebel" },
+      { a: 2, u: "Zehen", n: "Knoblauch" },
+      { a: 3, u: "EL", n: "Olivenöl" },
+      { a: 1, u: "EL", n: "Tomatenmark" },
+      { a: 800, u: "g", n: "geschälte oder stückige Tomaten (2 Dosen)" },
+      { a: 1, u: "TL", n: "Zucker" },
+      { a: 1, u: "TL", n: "getrockneter Oregano" },
+      { a: 1, u: "Bund", n: "Basilikum" },
+      { a: 50, u: "g", n: "Parmesan, gerieben" },
+      { a: null, u: "", n: "Salz und Pfeffer" }
+    ],
+    schritte: [
+      "Zwiebel fein würfeln, Knoblauch in dünne Scheiben schneiden.",
+      "Olivenöl in einem Topf erhitzen und die Zwiebel darin 4 Minuten glasig dünsten. Knoblauch 1 Minute mitdünsten, dann Tomatenmark kurz anrösten.",
+      "Tomaten dazugeben (geschälte Tomaten mit dem Kochlöffel zerdrücken). Zucker, Oregano, Salz und Pfeffer dazugeben und ohne Deckel 15–20 Minuten köcheln lassen.",
+      "Währenddessen die Nudeln in Salzwasser bissfest kochen.",
+      "Die Soße abschmecken und nach Wunsch mit dem Stabmixer glatt pürieren – viele Kinder mögen sie so lieber.",
+      "Nudeln mit der Soße mischen und mit Basilikum und Parmesan servieren."
+    ]
+  },
+  {
+    id: "gyros",
+    name: "Gyros im Fladenbrot",
+    kurz: "Würzige Gyros-Streifen aus der Pfanne mit selbstgemachtem Tzatziki.",
+    zeit: 40, aktiv: 30, level: "einfach", portionen: 4, kcal: 740,
+    tags: [],
+    bild: { artist: "Stephanie D.", lizenz: "CC BY-SA 2.0", url: "https://commons.wikimedia.org/wiki/File:Gyros.jpg" },
+    zutaten: [
+      { s: "Gyros" },
+      { a: 600, u: "g", n: "Schweinenacken oder Hähnchenbrust, in dünnen Streifen" },
+      { a: 3, u: "EL", n: "Olivenöl" },
+      { a: 2, u: "Zehen", n: "Knoblauch, gepresst" },
+      { a: 2, u: "TL", n: "Paprikapulver edelsüß" },
+      { a: 1, u: "TL", n: "getrockneter Oregano" },
+      { a: 1, u: "TL", n: "getrockneter Thymian" },
+      { a: 0.5, u: "TL", n: "gemahlener Kreuzkümmel" },
+      { a: 1, u: "", n: "Zwiebel, in Ringen" },
+      { a: null, u: "", n: "Salz und Pfeffer" },
+      { s: "Tzatziki" },
+      { a: 500, u: "g", n: "griechischer Joghurt (10 % Fett)" },
+      { a: 0.5, u: "", n: "Salatgurke" },
+      { a: 2, u: "Zehen", n: "Knoblauch" },
+      { a: 1, u: "EL", n: "Olivenöl" },
+      { a: null, u: "", n: "Salz, etwas Dill oder Minze" },
+      { s: "Zum Füllen" },
+      { a: 4, u: "", n: "Pita- oder Fladenbrote" },
+      { a: 2, u: "", n: "Tomaten" },
+      { a: 0.5, u: "", n: "Eisbergsalat" },
+      { a: 1, u: "", n: "rote Zwiebel" }
+    ],
+    schritte: [
+      "Fleisch mit Olivenöl, Knoblauch und allen Gewürzen mischen und mindestens 15 Minuten marinieren (gern auch über Nacht im Kühlschrank).",
+      "Für das Tzatziki die Gurke grob raspeln, kräftig ausdrücken und mit Joghurt, gepresstem Knoblauch, Olivenöl, Salz und Dill verrühren. Kalt stellen.",
+      "Tomaten würfeln, Salat in Streifen und die rote Zwiebel in dünne Ringe schneiden.",
+      "Eine große Pfanne sehr heiß werden lassen. Das Fleisch in zwei Portionen jeweils 4–5 Minuten scharf anbraten, damit es Röstaromen bekommt. Zwiebelringe in den letzten 2 Minuten mitbraten. Salzen und pfeffern.",
+      "Fladenbrote kurz im Ofen oder in der Pfanne aufwärmen und aufschneiden.",
+      "Mit Gyros, Salat, Tomaten, Zwiebeln und viel Tzatziki füllen. Dazu passen Pommes."
+    ]
+  },
+  {
+    id: "gulasch",
+    name: "Rindergulasch mit Spätzle",
+    kurz: "Langsam geschmort, mit viel Zwiebeln und Paprika – perfekt fürs Wochenende.",
+    zeit: 150, aktiv: 30, level: "mittel", portionen: 4, kcal: 780,
+    tags: [],
+    bild: { artist: "Silar", lizenz: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:02021_0736_(2)_Bogr%C3%A1cs_with_Spaetzle.jpg" },
+    zutaten: [
+      { a: 1, u: "kg", n: "Rindergulasch (aus der Schulter oder Wade)" },
+      { a: 700, u: "g", n: "Zwiebeln" },
+      { a: 2, u: "", n: "rote Paprika" },
+      { a: 2, u: "Zehen", n: "Knoblauch" },
+      { a: 3, u: "EL", n: "Butterschmalz oder Öl" },
+      { a: 2, u: "EL", n: "Tomatenmark" },
+      { a: 2, u: "EL", n: "Paprikapulver edelsüß" },
+      { a: 1, u: "TL", n: "Paprikapulver rosenscharf (nach Geschmack)" },
+      { a: 1, u: "TL", n: "Kümmel, gemahlen" },
+      { a: 1, u: "TL", n: "getrockneter Majoran" },
+      { a: 1, u: "EL", n: "Essig" },
+      { a: 750, u: "ml", n: "Rinderbrühe" },
+      { a: 2, u: "", n: "Lorbeerblätter" },
+      { a: null, u: "", n: "Salz und Pfeffer" },
+      { s: "Beilage" },
+      { a: 500, u: "g", n: "Spätzle (frisch oder aus dem Kühlregal) oder Bandnudeln" }
+    ],
+    schritte: [
+      "Fleisch trocken tupfen und in 3 cm große Würfel schneiden, falls nötig. Zwiebeln halbieren und in Streifen schneiden, Paprika würfeln, Knoblauch hacken.",
+      "Butterschmalz in einem schweren Bräter stark erhitzen. Das Fleisch in 2–3 Portionen rundherum kräftig anbraten und herausnehmen.",
+      "Zwiebeln im Bratfett bei mittlerer Hitze 10 Minuten goldbraun braten. Knoblauch und Tomatenmark dazugeben und 1 Minute rösten.",
+      "Topf kurz vom Herd nehmen, Paprikapulver einrühren (es wird sonst bitter) und sofort mit Essig und Brühe ablöschen.",
+      "Fleisch, Paprika, Kümmel, Majoran und Lorbeer dazugeben. Zugedeckt bei kleiner Hitze ca. 2 Stunden schmoren lassen, bis das Fleisch zart ist. Gelegentlich umrühren und bei Bedarf etwas Wasser nachgießen.",
+      "Lorbeerblätter entfernen und das Gulasch mit Salz und Pfeffer abschmecken.",
+      "Spätzle nach Packungsangabe zubereiten und mit dem Gulasch servieren."
+    ]
+  },
+  {
+    id: "fischstaebchen",
+    name: "Fischstäbchen mit Kartoffelpüree",
+    kurz: "Knusprige Fischstäbchen mit Püree und Rahmspinat.",
+    zeit: 30, aktiv: 25, level: "einfach", portionen: 4, kcal: 610,
+    tags: ["schnell", "kinder"],
+    bild: { artist: "Superbass", lizenz: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Fishfinger_classic_fried_1.jpg" },
+    zutaten: [
+      { a: 20, u: "", n: "Fischstäbchen (TK, ca. 600 g)" },
+      { a: 3, u: "EL", n: "Öl" },
+      { s: "Kartoffelpüree" },
+      { a: 1, u: "kg", n: "mehligkochende Kartoffeln" },
+      { a: 200, u: "ml", n: "Milch" },
+      { a: 50, u: "g", n: "Butter" },
+      { a: null, u: "", n: "Salz, Muskat" },
+      { s: "Rahmspinat" },
+      { a: 450, u: "g", n: "TK-Blattspinat" },
+      { a: 100, u: "ml", n: "Sahne" },
+      { a: 1, u: "", n: "kleine Zwiebel" },
+      { a: 1, u: "EL", n: "Butter" },
+      { a: 1, u: "Zehe", n: "Knoblauch" },
+      { a: null, u: "", n: "Salz, Pfeffer, Muskat" },
+      { s: "Dazu" },
+      { a: 1, u: "", n: "Zitrone" }
+    ],
+    schritte: [
+      "Kartoffeln schälen, in Stücke schneiden und in Salzwasser ca. 20 Minuten weich kochen.",
+      "Zwiebel und Knoblauch fein würfeln und in Butter glasig dünsten. Gefrorenen Spinat dazugeben und bei mittlerer Hitze auftauen lassen. Sahne einrühren, 5 Minuten köcheln lassen und mit Salz, Pfeffer und Muskat würzen.",
+      "Öl in einer großen Pfanne erhitzen und die gefrorenen Fischstäbchen darin bei mittlerer Hitze pro Seite 3–4 Minuten goldbraun braten. (Oder im Ofen nach Packungsangabe backen.)",
+      "Kartoffeln abgießen. Milch mit Butter erwärmen, dazugeben und alles zu Püree stampfen. Mit Salz und Muskat abschmecken.",
+      "Fischstäbchen mit Püree, Rahmspinat und Zitronenspalten servieren."
+    ]
+  },
+  {
+    id: "wraps",
+    name: "Hähnchen-Wraps",
+    kurz: "Gerollt mit Hähnchen, Avocado und Joghurtsoße – ideal für warme Tage.",
+    zeit: 25, aktiv: 25, level: "einfach", portionen: 4, kcal: 630,
+    tags: ["schnell", "kinder"],
+    bild: { artist: "Takeaway", lizenz: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Smoked_chicken_and_avocado_wrap.jpg" },
+    zutaten: [
+      { a: 8, u: "", n: "Weizentortillas (ca. 25 cm)" },
+      { a: 500, u: "g", n: "Hähnchenbrustfilet" },
+      { a: 1, u: "EL", n: "Öl" },
+      { a: 1, u: "TL", n: "Paprikapulver edelsüß" },
+      { a: 0.5, u: "TL", n: "Knoblauchpulver" },
+      { a: 1, u: "", n: "Avocado" },
+      { a: 2, u: "", n: "Tomaten" },
+      { a: 0.5, u: "", n: "Salatgurke" },
+      { a: 1, u: "", n: "Romanasalat" },
+      { a: 100, u: "g", n: "geriebener Gouda oder Cheddar" },
+      { a: null, u: "", n: "Salz und Pfeffer" },
+      { s: "Joghurtsoße" },
+      { a: 200, u: "g", n: "Naturjoghurt" },
+      { a: 1, u: "EL", n: "Mayonnaise" },
+      { a: 1, u: "TL", n: "Zitronensaft" },
+      { a: null, u: "", n: "Salz, Pfeffer, Schnittlauch" }
+    ],
+    schritte: [
+      "Hähnchen in dünne Streifen schneiden und mit Paprika, Knoblauchpulver, Salz und Pfeffer würzen.",
+      "Öl in einer Pfanne erhitzen und das Hähnchen darin 5–6 Minuten rundherum braten, bis es durchgegart ist.",
+      "Joghurt, Mayonnaise und Zitronensaft verrühren und mit Salz, Pfeffer und Schnittlauch würzen.",
+      "Avocado in Scheiben, Tomaten und Gurke in Würfel, Salat in Streifen schneiden.",
+      "Tortillas in einer trockenen Pfanne je 20 Sekunden pro Seite erwärmen, damit sie beim Rollen nicht reißen.",
+      "Tortillas mit Soße bestreichen, in der Mitte mit Salat, Hähnchen, Gemüse und Käse belegen. Die Seiten einschlagen und fest aufrollen. Schräg halbieren und servieren."
+    ]
+  },
+  {
+    id: "gnocchi",
+    name: "Gnocchi alla Sorrentina",
+    kurz: "Gnocchi in Tomatensoße, mit Mozzarella im Ofen überbacken.",
+    zeit: 30, aktiv: 15, level: "einfach", portionen: 4, kcal: 620,
+    tags: ["veg", "schnell", "kinder"],
+    bild: { artist: "Davide Zambelli", lizenz: "CC BY 3.0", url: "https://commons.wikimedia.org/wiki/File:Gnocchi_alla_sorrentina.jpg" },
+    zutaten: [
+      { a: 800, u: "g", n: "Gnocchi (aus dem Kühlregal)" },
+      { a: 1, u: "", n: "Zwiebel" },
+      { a: 1, u: "Zehe", n: "Knoblauch" },
+      { a: 2, u: "EL", n: "Olivenöl" },
+      { a: 700, u: "g", n: "passierte Tomaten" },
+      { a: 1, u: "TL", n: "Zucker" },
+      { a: 1, u: "TL", n: "getrockneter Oregano" },
+      { a: 250, u: "g", n: "Mozzarella (2 Kugeln)" },
+      { a: 40, u: "g", n: "Parmesan, gerieben" },
+      { a: 1, u: "Bund", n: "Basilikum" },
+      { a: null, u: "", n: "Salz und Pfeffer" }
+    ],
+    schritte: [
+      "Backofen auf 220 °C Ober-/Unterhitze vorheizen.",
+      "Zwiebel und Knoblauch fein würfeln und im Olivenöl 3 Minuten andünsten. Passierte Tomaten, Zucker, Oregano, Salz und Pfeffer dazugeben und 10 Minuten köcheln lassen.",
+      "Gnocchi in siedendem Salzwasser garen, bis sie oben schwimmen (ca. 2 Minuten), und mit einer Schaumkelle herausheben.",
+      "Gnocchi mit der Tomatensoße und der Hälfte des zerzupften Basilikums mischen und in eine Auflaufform geben.",
+      "Mozzarella in Stücke zupfen und mit dem Parmesan darauf verteilen.",
+      "10–12 Minuten backen, bis der Käse geschmolzen und leicht gebräunt ist. Mit restlichem Basilikum bestreuen."
+    ]
+  },
+  {
+    id: "milchreis",
+    name: "Milchreis mit Zimt und Kirschen",
+    kurz: "Cremig gekocht, mit Zimtzucker und warmen Kirschen.",
+    zeit: 40, aktiv: 10, level: "einfach", portionen: 4, kcal: 540,
+    tags: ["veg", "kinder", "suess"],
+    bild: { artist: "Ross Berteig", lizenz: "CC BY 2.0", url: "https://commons.wikimedia.org/wiki/File:Rice_pudding_cinnamon.jpg" },
+    zutaten: [
+      { a: 250, u: "g", n: "Milchreis (Rundkornreis)" },
+      { a: 1, u: "l", n: "Milch" },
+      { a: 3, u: "EL", n: "Zucker" },
+      { a: 1, u: "Päckchen", n: "Vanillezucker" },
+      { a: 1, u: "Prise", n: "Salz" },
+      { a: 1, u: "EL", n: "Butter" },
+      { s: "Zum Servieren" },
+      { a: 4, u: "EL", n: "Zucker mit 1 TL Zimt gemischt" },
+      { a: 1, u: "Glas", n: "Sauerkirschen (ca. 350 g Abtropfgewicht)" },
+      { a: 1, u: "EL", n: "Speisestärke" }
+    ],
+    schritte: [
+      "Milch mit Zucker, Vanillezucker, Salz und Butter in einem Topf mit dickem Boden aufkochen.",
+      "Milchreis einrühren, einmal aufkochen lassen und dann bei kleinster Hitze mit Deckel ca. 30 Minuten quellen lassen. Alle 5 Minuten umrühren, damit nichts anbrennt.",
+      "Für die Kirschen den Saft abgießen und 200 ml davon aufkochen. Stärke mit 3 EL kaltem Saft glatt rühren, einrühren und kurz aufkochen lassen. Kirschen unterheben.",
+      "Der Milchreis ist fertig, wenn er cremig und die Körner weich sind. Bei Bedarf noch einen Schuss Milch dazugeben.",
+      "Milchreis in Schalen füllen, mit Zimtzucker bestreuen und mit den warmen Kirschen servieren."
+    ]
   }
 ];
