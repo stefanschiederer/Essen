@@ -1,0 +1,872 @@
+<title>Was essen wir heute?</title>
+<meta name="theme-color" content="#1f6b4a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Essen">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: Küchen-Pinnwand – Kopfzeile mit Tabs, darunter eine Ansicht pro Tab; auf dem Handy wandern die Tabs nach unten. */
+:root {
+  --bg: #f3f5ef;
+  --surface: #ffffff;
+  --sunk: #e8ece3;
+  --ink: #1b2a21;
+  --muted: #5b695f;
+  --line: #d8dfd3;
+  --accent: #1f6b4a;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcebe2;
+  --pop: #f2b233;
+  --pop-soft: #fbecc7;
+  --pop-ink: #3a2900;
+  --danger: #b3261e;
+  --shadow: 0 1px 2px rgb(27 42 33 / .06), 0 6px 20px rgb(27 42 33 / .07);
+  --f-display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --f-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111713; --surface: #1a221d; --sunk: #232d26; --ink: #e7eee9; --muted: #9ba89f; --line: #2d3931;
+    --accent: #62c797; --accent-ink: #0d1f16; --accent-soft: #1f3a2c; --pop: #f2b233; --pop-soft: #3d3016; --pop-ink: #2a1e00;
+    --danger: #ff8a80; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 6px 20px rgb(0 0 0 / .25); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111713; --surface: #1a221d; --sunk: #232d26; --ink: #e7eee9; --muted: #9ba89f; --line: #2d3931;
+  --accent: #62c797; --accent-ink: #0d1f16; --accent-soft: #1f3a2c; --pop: #f2b233; --pop-soft: #3d3016; --pop-ink: #2a1e00;
+  --danger: #ff8a80; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 6px 20px rgb(0 0 0 / .25); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--f-body); }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.1; text-wrap: balance; margin: 0; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--pop); outline-offset: 2px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; }
+
+/* Kopfzeile */
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 16px; padding-block: 12px; }
+.brand { display: flex; align-items: baseline; gap: 10px; flex: 1; min-width: 0; }
+.brand h1 { font-size: 1.45rem; font-weight: 800; letter-spacing: -.02em; }
+.brand h1 em { font-style: normal; color: var(--accent); }
+.sync { font-size: .75rem; color: var(--muted); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.sync::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.sync.live::before { background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+nav.tabs { display: flex; gap: 4px; background: var(--sunk); padding: 4px; border-radius: 999px; }
+nav.tabs button { border: 0; background: none; padding: 7px 14px; border-radius: 999px; font-weight: 600; color: var(--muted); display: inline-flex; gap: 6px; align-items: center; }
+nav.tabs button[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+nav.tabs svg { width: 18px; height: 18px; }
+.badge { background: var(--pop); color: var(--pop-ink); font-size: .7rem; font-weight: 700; border-radius: 999px; padding: 0 6px; min-width: 18px; text-align: center; line-height: 18px; }
+
+main { padding-block: 24px 110px; }
+section.view { display: grid; gap: 24px; }
+.eyebrow { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.muted { color: var(--muted); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.spacer { flex: 1; }
+
+.btn { border: 1px solid var(--line); background: var(--surface); padding: 9px 16px; border-radius: 999px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: transform .1s; }
+.btn:active { transform: scale(.97); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.pop { background: var(--pop); border-color: var(--pop); color: var(--pop-ink); }
+.btn.ghost { background: none; border-color: transparent; color: var(--muted); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn svg { width: 18px; height: 18px; }
+input[type="text"], input[type="search"], select { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 9px 12px; min-width: 0; }
+
+/* Heute */
+.today-hero { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 0; overflow: hidden; padding: 0; }
+.today-hero .txt { padding: 24px; display: grid; gap: 12px; align-content: center; }
+.today-hero h2 { font-size: clamp(1.8rem, 4.5vw, 2.8rem); font-weight: 800; letter-spacing: -.025em; }
+.today-hero .pic { min-height: 220px; background: var(--sunk) center/cover no-repeat; }
+.today-hero.decided h2 span { color: var(--accent); }
+
+.who { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 14px 5px 6px; font-weight: 600; }
+.chip .av { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--sunk); font-size: 1rem; }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.chip .left { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.chip .x { margin-left: 2px; border: 0; background: none; color: var(--danger); font-weight: 700; padding: 0 2px; }
+.addp { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.emojipick { border: 1.5px dashed var(--line); background: var(--surface); width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; }
+
+.vote-layout { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 24px; align-items: start; }
+.vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; }
+.vcard { position: relative; background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--r); overflow: hidden; text-align: left; padding: 0; display: grid; }
+.vcard img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; background: var(--sunk); }
+.vcard .b { padding: 8px 10px 10px; display: grid; gap: 4px; }
+.vcard .n { font-weight: 700; font-size: .92rem; line-height: 1.25; }
+.vcard .voters { display: flex; gap: 2px; min-height: 22px; flex-wrap: wrap; }
+.vcard .voters span { width: 22px; height: 22px; border-radius: 50%; background: var(--pop-soft); display: grid; place-items: center; font-size: .75rem; }
+.vcard.mine { border-color: var(--pop); box-shadow: 0 0 0 2px var(--pop); }
+.vcard .tick { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; box-shadow: var(--shadow); color: var(--muted); }
+.vcard.mine .tick { background: var(--pop); color: var(--pop-ink); }
+.vcard .tick svg { width: 18px; height: 18px; }
+
+.results { position: sticky; top: 84px; display: grid; gap: 14px; }
+.rank { display: grid; gap: 10px; list-style: none; padding: 0; margin: 0; }
+.rank li { display: grid; gap: 4px; }
+.rank .l { display: flex; justify-content: space-between; gap: 8px; font-weight: 600; font-size: .92rem; }
+.rank .l span:last-child { font-variant-numeric: tabular-nums; color: var(--muted); }
+.bar { height: 10px; border-radius: 999px; background: var(--sunk); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--accent); border-radius: 999px; transition: width .4s ease; }
+.rank li.lead .bar i { background: var(--pop); }
+
+/* Glücksrad */
+.wheelbox { display: grid; justify-items: center; gap: 14px; }
+.wheelwrap { position: relative; width: min(340px, 100%); aspect-ratio: 1; }
+.wheelwrap canvas { width: 100%; height: 100%; display: block; }
+.wheelwrap::after { content: ""; position: absolute; top: -4px; left: 50%; transform: translateX(-50%); border: 14px solid transparent; border-top: 24px solid var(--ink); border-bottom: 0; }
+
+/* Rezepte */
+.filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.filters input[type="search"] { flex: 1 1 220px; }
+.fchip { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 14px; font-weight: 600; font-size: .9rem; }
+.fchip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.rgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; }
+.rcard { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; text-align: left; padding: 0; display: grid; grid-template-rows: auto 1fr; transition: transform .15s, box-shadow .15s; }
+.rcard:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.rcard img { width: 100%; aspect-ratio: 3/2; object-fit: cover; display: block; background: var(--sunk); }
+.rcard .b { padding: 12px 14px 14px; display: grid; gap: 6px; align-content: start; }
+.rcard h3 { font-size: 1.15rem; font-weight: 800; letter-spacing: -.01em; }
+.rcard p { margin: 0; color: var(--muted); font-size: .9rem; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: .82rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.meta b { color: var(--ink); font-weight: 600; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.tag.t-suess { background: var(--pop-soft); color: var(--ink); }
+.empty { text-align: center; padding: 40px 16px; color: var(--muted); }
+
+/* Rezept-Detail */
+dialog { border: 0; padding: 0; border-radius: 20px; background: var(--surface); color: var(--ink); width: min(920px, calc(100% - 24px)); max-height: calc(100% - 24px); box-shadow: 0 20px 60px rgb(0 0 0 / .35); }
+dialog.join { width: min(520px, calc(100% - 24px)); }
+dialog.join input[type="text"] { width: 100%; }
+dialog::backdrop { background: rgb(10 18 13 / .55); }
+.dhead { position: relative; }
+.dhead img { width: 100%; max-height: 340px; object-fit: cover; display: block; background: var(--sunk); }
+.dhead .credit { position: absolute; right: 10px; bottom: 8px; font-size: .68rem; background: rgb(0 0 0 / .55); color: #fff; padding: 2px 8px; border-radius: 6px; text-decoration: none; }
+.close { position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--surface); box-shadow: var(--shadow); display: grid; place-items: center; font-size: 1.3rem; z-index: 2; }
+.dbody { padding: 22px 24px 28px; display: grid; gap: 18px; }
+.dbody h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); font-weight: 800; letter-spacing: -.02em; }
+.dcols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 28px; }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.stepper button { border: 0; background: var(--sunk); width: 36px; height: 36px; font-size: 1.2rem; font-weight: 700; }
+.stepper output { min-width: 110px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ing { list-style: none; padding: 0; margin: 0; display: grid; }
+.ing li { display: grid; grid-template-columns: 22px 88px minmax(0, 1fr); gap: 8px; align-items: baseline; padding: 7px 0; border-bottom: 1px dashed var(--line); }
+.ing li.sec { display: block; border: 0; padding: 14px 0 2px; font-weight: 800; font-family: var(--f-display); font-size: .95rem; color: var(--accent); }
+.ing li.sec:first-child { padding-top: 0; }
+.ing .amt { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.ing input { margin: 0; accent-color: var(--accent); transform: translateY(2px); }
+.ing li.got { color: var(--muted); text-decoration: line-through; }
+ol.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 14px; }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; max-width: 65ch; }
+ol.steps li::before { content: counter(s); width: 30px; height: 30px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 800; font-family: var(--f-display); }
+.dactions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding-top: 4px; border-top: 1px solid var(--line); padding-block: 16px 0; }
+
+/* Kochmodus */
+.cook { position: fixed; inset: 0; z-index: 60; background: var(--bg); display: grid; grid-template-rows: auto 1fr auto; padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px calc(env(safe-area-inset-bottom, 0px) + 16px); }
+.cook .ct { display: flex; align-items: center; gap: 12px; }
+.cook .prog { flex: 1; height: 6px; background: var(--sunk); border-radius: 999px; overflow: hidden; }
+.cook .prog i { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+.cook .cs { align-self: center; justify-self: center; max-width: 34ch; text-align: center; display: grid; gap: 18px; }
+.cook .cs .num { font-family: var(--f-display); font-weight: 800; font-size: 1rem; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; }
+.cook .cs p { font-size: clamp(1.35rem, 3.6vw, 2.1rem); line-height: 1.35; margin: 0; font-weight: 500; }
+.cook .cb { display: flex; gap: 12px; justify-content: center; }
+.cook .cb .btn { padding: 14px 26px; font-size: 1.05rem; }
+
+/* Woche */
+.week { display: grid; gap: 10px; }
+.day { display: grid; grid-template-columns: 110px 64px minmax(0, 1fr) auto; gap: 14px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 14px; }
+.day.is-today { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.day .dl { font-weight: 700; }
+.day .dl small { display: block; color: var(--muted); font-weight: 500; font-variant-numeric: tabular-nums; }
+.day .th { width: 64px; height: 48px; border-radius: 8px; background: var(--sunk) center/cover; }
+.day select { width: 100%; }
+
+/* Einkauf */
+.shop-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+.slist { list-style: none; padding: 0; margin: 0; display: grid; }
+.slist li { display: flex; align-items: center; gap: 12px; padding: 10px 4px; border-bottom: 1px solid var(--line); }
+.slist input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); flex: none; }
+.slist .t { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.slist .t small { display: block; color: var(--muted); font-size: .78rem; }
+.slist li.done .t { text-decoration: line-through; color: var(--muted); }
+.slist .del { border: 0; background: none; color: var(--muted); font-size: 1.2rem; padding: 0 6px; }
+form.add { display: flex; gap: 8px; }
+form.add input { flex: 1; }
+
+.toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 90px); transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-weight: 600; opacity: 0; transition: .25s; pointer-events: none; z-index: 80; max-width: calc(100% - 32px); text-align: center; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+footer { font-size: .78rem; color: var(--muted); padding-block: 8px 0; }
+footer a { color: inherit; }
+
+@media (max-width: 860px) {
+  .vote-layout, .shop-layout, .dcols { grid-template-columns: minmax(0, 1fr); }
+  .results { position: static; }
+  .today-hero { grid-template-columns: minmax(0, 1fr); }
+  .today-hero .pic { min-height: 180px; order: -1; }
+  nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; border-radius: 0; padding: 6px 8px calc(env(safe-area-inset-bottom, 0px) + 6px); justify-content: space-around; background: var(--surface); border-top: 1px solid var(--line); z-index: 30; }
+  nav.tabs button { flex-direction: column; gap: 2px; font-size: .72rem; padding: 6px 10px; }
+  nav.tabs button[aria-selected="true"] { box-shadow: none; background: var(--accent-soft); color: var(--accent); }
+  .day { grid-template-columns: 64px minmax(0, 1fr); }
+  .day .dl { grid-column: 1 / -1; display: flex; gap: 8px; align-items: baseline; }
+  .day .dl small { display: inline; }
+  .day .act { grid-column: 1 / -1; }
+  .ing li { grid-template-columns: 22px 76px minmax(0, 1fr); }
+}
+@media (max-width: 480px) { .vgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .dbody { padding: 18px 16px 24px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><h1>Was essen wir <em>heute?</em></h1><span class="sync" id="sync">nur auf diesem Gerät</span></div>
+    <button class="btn" id="inviteBtn" type="button" hidden>Familie einladen</button>
+    <nav class="tabs" role="tablist" aria-label="Bereiche">
+      <button role="tab" data-tab="heute" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>Abstimmen</button>
+      <button role="tab" data-tab="rezepte" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>Rezepte</button>
+      <button role="tab" data-tab="woche" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Woche</button>
+      <button role="tab" data-tab="einkauf" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>Einkauf<span class="badge" id="shopBadge" hidden></span></button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- HEUTE -->
+  <section class="view" id="v-heute">
+    <div class="panel today-hero" id="hero"></div>
+
+    <div class="panel" style="display:grid;gap:12px">
+      <div class="row"><span class="eyebrow">Wer stimmt gerade ab?</span><span class="spacer"></span><button class="btn ghost" id="editFam" type="button">Familie bearbeiten</button></div>
+      <div class="who" id="who"></div>
+      <form class="addp" id="addPerson" hidden>
+        <button type="button" class="emojipick" id="emojiBtn" aria-label="Symbol wechseln">🦊</button>
+        <input type="text" id="personName" placeholder="Name, z. B. Mama" maxlength="20" autocomplete="off">
+        <button class="btn primary" type="submit">Hinzufügen</button>
+      </form>
+    </div>
+
+    <div class="vote-layout">
+      <div style="display:grid;gap:12px">
+        <div class="row"><h2 style="font-size:1.4rem">Worauf habt ihr Lust?</h2><span class="muted" id="voteHint"></span></div>
+        <div class="vgrid" id="vgrid"></div>
+      </div>
+      <aside class="results">
+        <div class="panel" style="display:grid;gap:14px">
+          <div class="row"><span class="eyebrow">Zwischenstand</span><span class="spacer"></span><span class="muted" id="voteCount" style="font-size:.85rem"></span></div>
+          <ol class="rank" id="rank"></ol>
+          <button class="btn primary" id="decideBtn" type="button">Gewinner festlegen</button>
+        </div>
+        <div class="panel wheelbox">
+          <div class="eyebrow" style="justify-self:start">Keine Einigung?</div>
+          <div class="wheelwrap"><canvas id="wheel" width="680" height="680" aria-label="Glücksrad"></canvas></div>
+          <p class="muted" id="wheelNote" style="margin:0;text-align:center;font-size:.88rem"></p>
+          <button class="btn pop" id="spinBtn" type="button">Glücksrad drehen</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- REZEPTE -->
+  <section class="view" id="v-rezepte" hidden>
+    <div class="row" style="align-items:baseline"><h2 style="font-size:1.8rem">Rezeptbuch</h2><span class="muted" id="rCount"></span></div>
+    <div class="filters">
+      <input type="search" id="q" placeholder="Rezept oder Zutat suchen …" autocomplete="off">
+      <button class="fchip" data-f="veg" aria-pressed="false" type="button">Vegetarisch</button>
+      <button class="fchip" data-f="schnell" aria-pressed="false" type="button">Bis 30 Min.</button>
+      <button class="fchip" data-f="kinder" aria-pressed="false" type="button">Kinder-Liebling</button>
+      <button class="fchip" data-f="suess" aria-pressed="false" type="button">Süß</button>
+    </div>
+    <div class="rgrid" id="rgrid"></div>
+  </section>
+
+  <!-- WOCHE -->
+  <section class="view" id="v-woche" hidden>
+    <div class="row"><h2 style="font-size:1.8rem">Wochenplan</h2><span class="spacer"></span>
+      <button class="btn" id="fillWeek" type="button">Freie Tage zufällig füllen</button>
+      <button class="btn primary" id="weekShop" type="button">Zutaten auf die Einkaufsliste</button>
+    </div>
+    <div class="week" id="week"></div>
+  </section>
+
+  <!-- EINKAUF -->
+  <section class="view" id="v-einkauf" hidden>
+    <div class="shop-layout">
+      <div class="panel" style="display:grid;gap:14px">
+        <div class="row"><h2 style="font-size:1.8rem">Einkaufsliste</h2><span class="spacer"></span><span class="muted" id="shopCount"></span></div>
+        <form class="add" id="addItem"><input type="text" id="itemText" placeholder="Etwas hinzufügen, z. B. 1 l Milch" maxlength="80" autocomplete="off"><button class="btn primary" type="submit">Hinzufügen</button></form>
+        <ul class="slist" id="slist"></ul>
+      </div>
+      <div class="panel" style="display:grid;gap:10px">
+        <span class="eyebrow">Aufräumen</span>
+        <button class="btn" id="clearDone" type="button">Abgehakte entfernen</button>
+        <button class="btn ghost" id="clearAll" type="button">Ganze Liste leeren</button>
+        <p class="muted" style="margin:0;font-size:.85rem">Beim Hinzufügen aus Rezepten werden gleiche Zutaten zusammengerechnet. Salz, Pfeffer und andere Gewürze ohne Mengenangabe lassen wir weg.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="credits">Fotos: Wikimedia Commons, Urheber und Lizenz stehen beim jeweiligen Rezept.</footer>
+</main>
+
+<dialog id="dlg"></dialog>
+<dialog id="join" class="join">
+  <div class="dbody">
+    <h2>Willkommen am Familientisch</h2>
+    <p class="muted" style="margin:0">Mit einem Familien-Code seht ihr alle dieselben Stimmen, denselben Wochenplan und dieselbe Einkaufsliste – live auf jedem Handy.</p>
+    <form id="joinForm" style="display:grid;gap:8px">
+      <label for="joinCode" style="font-weight:600">Ich habe einen Familien-Code</label>
+      <div class="row"><input type="text" id="joinCode" placeholder="z. B. kaese-tiger-4821" autocomplete="off" autocapitalize="none" spellcheck="false" style="flex:1"><button class="btn primary" type="submit">Beitreten</button></div>
+      <p class="muted" id="joinErr" style="margin:0;color:var(--danger)" hidden>Der Code ist zu kurz. Er hat mindestens 12 Zeichen, z. B. kaese-tiger-4821.</p>
+    </form>
+    <div class="row" style="border-top:1px solid var(--line);padding-top:16px"><span class="muted">Noch keinen Code?</span><button class="btn pop" id="newFamily" type="button">Neue Familie anlegen</button></div>
+    <button class="btn ghost" id="soloBtn" type="button" style="justify-self:start">Erstmal nur auf diesem Handy ausprobieren</button>
+  </div>
+</dialog>
+<dialog id="invite" class="join">
+  <div class="dbody">
+    <h2>Familie einladen</h2>
+    <p class="muted" style="margin:0">Schick diesen Link an deine Familie, z. B. per WhatsApp. Wer ihn öffnet, ist sofort dabei.</p>
+    <input type="text" id="inviteLink" readonly>
+    <div class="row"><button class="btn primary" id="copyLink" type="button">Link kopieren</button><span class="muted">Code: <b id="inviteCode"></b></span></div>
+    <p class="muted" style="margin:0;font-size:.85rem">Tipp: Im Browser-Menü „Zum Startbildschirm hinzufügen“ wählen – dann gibt's ein App-Symbol.</p>
+    <div class="row"><button class="btn ghost" id="leaveFamily" type="button">Familie wechseln</button><span class="spacer"></span><button class="btn" data-closeinvite type="button">Schließen</button></div>
+  </div>
+</dialog>
+<div class="cook" id="cook" hidden></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="firebase-config.js"></script>
+<script src="recipes.js"></script>
+<script>
+(() => {
+"use strict";
+const R = window.REZEPTE || [];
+const byId = Object.fromEntries(R.map(r => [r.id, r]));
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const TAGS = { veg: "Vegetarisch", schnell: "Schnell", kinder: "Kinder-Liebling", suess: "Süß" };
+const EMOJIS = ["🦊", "🐻", "🐼", "🐸", "🦁", "🐯", "🐨", "🐙", "🦄", "🐝", "🐧", "🐢"];
+const MAX_VOTES = 3;
+const img = r => `img/${r.id}.jpg`;
+
+/* ---------- Datum ---------- */
+const dkey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const today = () => dkey(new Date());
+const WD = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+const MO = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+
+/* ---------- Mengen ---------- */
+const FR = { 0.25: "¼", 0.5: "½", 0.75: "¾" };
+function fmtAmount(a, u) {
+  if (a == null) return "";
+  let v = a;
+  if (u === "g" || u === "ml") {
+    if (v >= 1000) return fmtDec(v / 1000, 1) + (u === "g" ? " kg" : " l");
+    v = v >= 200 ? Math.round(v / 10) * 10 : Math.max(5, Math.round(v / 5) * 5);
+    return v + " " + u;
+  }
+  if (u === "kg" || u === "l") {
+    if (v < 1) return fmtAmount(v * 1000, u === "kg" ? "g" : "ml");
+    return fmtDec(v, 1) + " " + u;
+  }
+  v = Math.round(v * 4) / 4;
+  if (v === 0) v = 0.25;
+  const whole = Math.floor(v), frac = +(v - whole).toFixed(2);
+  const s = (whole ? whole : "") + (frac ? FR[frac] : "");
+  return (s || "0") + (u ? " " + u : "");
+}
+function fmtDec(v, d) { return (+v.toFixed(d)).toString().replace(".", ","); }
+const toBase = (a, u) => u === "kg" ? [a * 1000, "g"] : u === "l" ? [a * 1000, "ml"] : [a, u];
+
+/* ---------- Speicher: geteilt (claude db) oder lokal ---------- */
+const S = { family: {}, votes: {}, plan: {}, shopping: {} };
+let db = null, shared = false, readOnly = false;
+const LS = "wewh.v1";
+function loadLocal() { try { const d = JSON.parse(localStorage.getItem(LS) || "{}"); for (const k in S) S[k] = d[k] || {}; } catch {} }
+function saveLocal() { if (shared) return; try { localStorage.setItem(LS, JSON.stringify(S)); } catch {} }
+const pref = { get(k, d) { try { return localStorage.getItem("wewh." + k) ?? d; } catch { return d; } }, set(k, v) { try { localStorage.setItem("wewh." + k, v); } catch {} } };
+
+async function put(coll, id, data) {
+  if (!shared) { S[coll][id] = data; saveLocal(); renderAll(); return true; }
+  if (readOnly) { toast("Du kannst hier nur ansehen, nicht ändern."); return false; }
+  try { await db.collection(coll).doc(id).set(data); return true; }
+  catch (e) { return fail(e); }
+}
+async function del(coll, id) {
+  if (!shared) { delete S[coll][id]; saveLocal(); renderAll(); return true; }
+  if (readOnly) { toast("Du kannst hier nur ansehen, nicht ändern."); return false; }
+  try { await db.collection(coll).doc(id).delete(); return true; }
+  catch (e) { return fail(e); }
+}
+function fail(e) {
+  if (e && (e.code === "invalid_argument" || e.code === "permission-denied")) { readOnly = true; toast("Speichern nicht möglich: Du hast für diese App nur Leserechte."); }
+  else if (e && e.code === "quota_exceeded") toast("Der Speicher ist voll. Bitte die Einkaufsliste aufräumen.");
+  else toast("Speichern hat nicht geklappt. Bitte gleich nochmal versuchen.");
+  return false;
+}
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+/* Firebase (GitHub-Pages-Version): gleiche Schnittstelle wie die claude-Datenbank.
+   Alle Daten einer Familie liegen unter familien/<Familien-Code>/… */
+const FB = "https://www.gstatic.com/firebasejs/12.19.0/";
+async function firebaseDb(code) {
+  const [{ initializeApp }, fs] = await Promise.all([import(FB + "firebase-app.js"), import(FB + "firebase-firestore.js")]);
+  const fdb = fs.getFirestore(initializeApp(window.FIREBASE_CONFIG));
+  const col = c => fs.collection(fdb, "familien", code, c);
+  const coll = (c, cons = []) => ({
+    where: (f, op, v) => coll(c, [...cons, fs.where(f, op, v)]),
+    onSnapshot: (next, err) => fs.onSnapshot(fs.query(col(c), ...cons), s => next({ docs: s.docs.map(d => ({ id: d.id, data: () => d.data() })) }), err),
+    doc: id => ({ set: data => fs.setDoc(fs.doc(col(c), id), data), delete: () => fs.deleteDoc(fs.doc(col(c), id)) })
+  });
+  return { collection: c => coll(c) };
+}
+const WORDS = ["kaese", "tiger", "nudel", "sonne", "apfel", "wolke", "pizza", "dachs", "birne", "koala", "zimt", "pinguin", "brezel", "otter", "salat", "mond"];
+const newCode = () => { const r = n => crypto.getRandomValues(new Uint32Array(1))[0] % n; return `${WORDS[r(WORDS.length)]}-${WORDS[r(WORDS.length)]}-${1000 + r(9000)}`; };
+const cleanCode = s => String(s || "").toLowerCase().trim().replace(/[^a-z0-9-]/g, "");
+function codeFromHash() { const m = location.hash.match(/familie=([a-z0-9-]+)/i); return m ? cleanCode(m[1]) : ""; }
+const inviteLink = code => location.href.split("#")[0] + "#familie=" + code;
+let justCreated = false;
+function askFamily() {
+  return new Promise(resolve => {
+    const dlg = $("#join"), done = code => { dlg.close(); resolve(code); };
+    $("#joinForm").onsubmit = e => { e.preventDefault(); const c = cleanCode($("#joinCode").value); if (c.length < 12) { $("#joinErr").hidden = false; return; } done(c); };
+    $("#newFamily").onclick = () => { justCreated = true; done(newCode()); };
+    $("#soloBtn").onclick = () => done("");
+    dlg.addEventListener("cancel", e => e.preventDefault());
+    dlg.showModal();
+  });
+}
+
+async function connect() {
+  let d = null;
+  if (window.claude && typeof window.claude.use === "function") {
+    try { d = await window.claude.use("db"); } catch {}
+  } else if (window.FIREBASE_CONFIG) {
+    let code = codeFromHash() || pref.get("familie", "");
+    if (!code && pref.get("solo", "") !== "1") code = await askFamily();
+    if (!code) {
+      pref.set("solo", "1");
+      const ib = $("#inviteBtn"); ib.hidden = false; ib.textContent = "Mit Familie verbinden";
+      ib.onclick = () => { pref.set("solo", ""); location.reload(); };
+      return;
+    }
+    pref.set("familie", code); pref.set("solo", "");
+    if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+    try { d = await firebaseDb(code); } catch (e) { toast("Keine Verbindung zur Datenbank. Die App speichert vorerst nur auf diesem Handy."); return; }
+    const ib = $("#inviteBtn"); ib.hidden = false;
+    ib.onclick = () => { $("#inviteLink").value = inviteLink(code); $("#inviteCode").textContent = code; $("#invite").showModal(); };
+    if (justCreated) ib.onclick();
+  }
+  if (!d) return;
+  db = d; shared = true;
+  for (const k in S) S[k] = {};
+  const sync = $("#sync"); sync.textContent = "live für alle"; sync.classList.add("live");
+  const sub = (coll, q) => q.onSnapshot(snap => {
+    S[coll] = Object.fromEntries(snap.docs.map(x => [x.id, x.data()]));
+    renderAll();
+  }, () => { sync.textContent = "Verbindung getrennt"; sync.classList.remove("live"); });
+  sub("family", db.collection("family"));
+  sub("votes", db.collection("votes").where("date", "==", today()));
+  sub("plan", db.collection("plan").where("date", ">=", dkey(addDays(new Date(), -7))));
+  sub("shopping", db.collection("shopping"));
+  try { const u = await window.claude.use("user"); if (u && (await u.can("data.write")) === false) readOnly = true; } catch {}
+  renderAll();
+}
+
+/* ---------- Zustand der Oberfläche ---------- */
+let me = pref.get("me", "");
+let editFam = false;
+let emojiIdx = 0;
+const filters = new Set();
+let tab = "heute";
+
+const members = () => Object.entries(S.family).map(([id, m]) => ({ id, ...m })).sort((a, b) => (a.ts || 0) - (b.ts || 0));
+const picksOf = mid => (S.votes[`${today()}_${mid}`]?.picks || []).filter(p => byId[p]);
+function tally() {
+  const t = {};
+  for (const v of Object.values(S.votes)) {
+    if (v.date !== today() || !S.family[v.member]) continue;
+    for (const p of v.picks || []) if (byId[p]) (t[p] = t[p] || []).push(v.member);
+  }
+  return Object.entries(t).map(([id, voters]) => ({ id, voters })).sort((a, b) => b.voters.length - a.voters.length || byId[a.id].name.localeCompare(byId[b.id].name));
+}
+
+/* ---------- Render: Heute ---------- */
+function renderHero() {
+  const d = new Date(), p = S.plan[today()], r = p && byId[p.recipe];
+  const date = `${WD[d.getDay()]}, ${d.getDate()}. ${MO[d.getMonth()]}`;
+  const hero = $("#hero");
+  hero.classList.toggle("decided", !!r);
+  if (r) {
+    hero.innerHTML = `<div class="txt"><span class="eyebrow">${date} · Entschieden</span><h2>Heute gibt's <span>${esc(r.name)}</span></h2>
+      <p class="muted" style="margin:0">${esc(r.kurz)}</p>
+      <div class="row"><button class="btn primary" data-open="${r.id}" type="button">Rezept öffnen</button><button class="btn" data-cook="${r.id}" type="button">Kochmodus</button><button class="btn ghost" id="undecide" type="button">Nochmal abstimmen</button></div></div>
+      <div class="pic" style="background-image:url('${img(r)}')" role="img" aria-label="${esc(r.name)}"></div>`;
+  } else {
+    const t = tally();
+    const n = new Set(Object.values(S.votes).filter(v => v.date === today() && (v.picks || []).length).map(v => v.member)).size;
+    hero.innerHTML = `<div class="txt"><span class="eyebrow">${date}</span><h2>Was essen wir heute?</h2>
+      <p class="muted" style="margin:0">Jeder wählt bis zu ${MAX_VOTES} Gerichte. Das Gericht mit den meisten Stimmen gewinnt, bei Gleichstand entscheidet das Glücksrad.</p>
+      <p style="margin:0;font-weight:600">${n ? `${n} von ${members().length} haben schon abgestimmt.` : "Noch hat niemand abgestimmt."}</p></div>
+      <div class="pic" style="background-image:url('${img(byId[t[0]?.id] || R[new Date().getDate() % R.length])}')" role="img" aria-label="Essensbild"></div>`;
+  }
+}
+function renderWho() {
+  const ms = members(), who = $("#who");
+  if (me && !S.family[me]) me = "";
+  if (!ms.length) {
+    who.innerHTML = `<p class="muted" style="margin:0">Legt zuerst eure Familie an: Name eintippen, Tier-Symbol aussuchen, fertig.</p>`;
+    $("#addPerson").hidden = false;
+  } else {
+    who.innerHTML = ms.map(m => {
+      const left = MAX_VOTES - picksOf(m.id).length;
+      return `<button class="chip" type="button" data-me="${m.id}" aria-pressed="${m.id === me}"><span class="av">${esc(m.emoji)}</span>${esc(m.name)}
+        <span class="left">${left === 0 ? "fertig" : left + " frei"}</span>${editFam ? `<span class="x" data-delmember="${m.id}" role="button" aria-label="${esc(m.name)} entfernen">×</span>` : ""}</button>`;
+    }).join("");
+    $("#addPerson").hidden = !editFam;
+  }
+  $("#editFam").textContent = editFam ? "Fertig" : "Familie bearbeiten";
+  $("#editFam").hidden = !ms.length;
+}
+function renderVoting() {
+  const mine = me ? picksOf(me) : [];
+  const t = Object.fromEntries(tally().map(x => [x.id, x.voters]));
+  $("#voteHint").textContent = me ? `${S.family[me].name}: noch ${MAX_VOTES - mine.length} von ${MAX_VOTES} Stimmen` : "Tippe oben auf deinen Namen, um abzustimmen.";
+  $("#vgrid").innerHTML = R.map(r => {
+    const voters = t[r.id] || [], on = mine.includes(r.id);
+    return `<button class="vcard${on ? " mine" : ""}" type="button" data-vote="${r.id}" aria-pressed="${on}">
+      <img src="${img(r)}" alt="" loading="lazy">
+      <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="${on ? "currentColor" : "none"}" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>
+      <span class="b"><span class="n">${esc(r.name)}</span><span class="meta"><span>${r.zeit} Min.</span><span>${r.level}</span></span>
+      <span class="voters">${voters.map(v => `<span title="${esc(S.family[v]?.name)}">${esc(S.family[v]?.emoji)}</span>`).join("")}</span></span></button>`;
+  }).join("");
+}
+function renderRank() {
+  const t = tally(), max = t[0]?.voters.length || 1;
+  const total = t.reduce((s, x) => s + x.voters.length, 0);
+  $("#voteCount").textContent = total ? `${total} Stimme${total === 1 ? "" : "n"}` : "";
+  $("#rank").innerHTML = t.length ? t.slice(0, 6).map((x, i) => `<li class="${x.voters.length === max ? "lead" : ""}">
+      <div class="l"><span>${esc(byId[x.id].name)}</span><span>${x.voters.length}</span></div>
+      <div class="bar"><i style="width:${(x.voters.length / max) * 100}%"></i></div></li>`).join("")
+    : `<li class="muted" style="font-size:.9rem">Sobald jemand abstimmt, erscheint hier die Rangliste.</li>`;
+  $("#decideBtn").disabled = !t.length || !!S.plan[today()];
+  renderWheelNote();
+}
+
+/* ---------- Glücksrad ---------- */
+let wheelAngle = 0, spinning = false;
+function wheelItems() {
+  const t = tally();
+  if (t.length >= 2) {
+    const top = t[0].voters.length, tied = t.filter(x => x.voters.length === top);
+    return (tied.length >= 2 ? tied : t.slice(0, 8)).map(x => byId[x.id]);
+  }
+  const seed = today().split("-").join("") | 0;
+  return [...R].sort((a, b) => ((a.id.length * 31 + seed) % 17) - ((b.id.length * 31 + seed) % 17) || a.id.localeCompare(b.id)).slice(0, 8);
+}
+function renderWheelNote() {
+  const t = tally(), top = t[0]?.voters.length, tied = t.filter(x => x.voters.length === top).length;
+  $("#wheelNote").textContent = t.length >= 2 ? (tied >= 2 ? `Gleichstand zwischen ${tied} Gerichten – das Rad entscheidet.` : "Das Rad dreht zwischen euren Favoriten.") : "Das Rad dreht zwischen 8 Gerichten aus dem Rezeptbuch.";
+  if (!spinning) drawWheel();
+}
+function drawWheel() {
+  const c = $("#wheel"), x = c.getContext("2d"), items = wheelItems(), n = items.length, W = c.width, rad = W / 2 - 8;
+  const cs = getComputedStyle(document.documentElement);
+  const cols = [cs.getPropertyValue("--accent"), cs.getPropertyValue("--pop"), cs.getPropertyValue("--accent-soft"), cs.getPropertyValue("--pop-soft")].map(s => s.trim());
+  const inkOn = [cs.getPropertyValue("--accent-ink"), cs.getPropertyValue("--pop-ink"), cs.getPropertyValue("--ink"), cs.getPropertyValue("--ink")].map(s => s.trim());
+  x.clearRect(0, 0, W, W);
+  x.save(); x.translate(W / 2, W / 2); x.rotate(wheelAngle);
+  for (let i = 0; i < n; i++) {
+    const a0 = (i / n) * Math.PI * 2 - Math.PI / 2, a1 = ((i + 1) / n) * Math.PI * 2 - Math.PI / 2, ci = (n % 2 && i === n - 1 && n > 1) ? 2 : i % (n === 2 ? 2 : 4);
+    x.beginPath(); x.moveTo(0, 0); x.arc(0, 0, rad, a0, a1); x.closePath(); x.fillStyle = cols[ci]; x.fill();
+    x.strokeStyle = cs.getPropertyValue("--surface").trim(); x.lineWidth = 4; x.stroke();
+    x.save(); x.rotate((a0 + a1) / 2); x.textAlign = "right"; x.textBaseline = "middle"; x.fillStyle = inkOn[ci];
+    x.font = `700 ${n > 6 ? 24 : 28}px Figtree, system-ui, sans-serif`;
+    let label = items[i].name; while (x.measureText(label).width > rad - 90 && label.length > 4) label = label.slice(0, -2) + "…";
+    x.fillText(label, rad - 22, 0); x.restore();
+  }
+  x.restore();
+  x.beginPath(); x.arc(W / 2, W / 2, 34, 0, Math.PI * 2); x.fillStyle = cs.getPropertyValue("--surface").trim(); x.fill();
+  x.lineWidth = 4; x.strokeStyle = cs.getPropertyValue("--ink").trim(); x.stroke();
+}
+function spin() {
+  if (spinning) return;
+  const items = wheelItems(), n = items.length, pick = Math.floor(Math.random() * n);
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Segment `pick` soll oben unter dem Zeiger landen
+  const segCenter = ((pick + 0.5) / n) * Math.PI * 2;
+  const target = -segCenter + Math.PI * 2 * (reduce ? 1 : 6) - (((wheelAngle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2)) + wheelAngle;
+  const start = wheelAngle, dur = reduce ? 1 : 4200, t0 = performance.now();
+  spinning = true; $("#spinBtn").disabled = true;
+  const step = now => {
+    const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 4);
+    wheelAngle = start + (target - start) * e; drawWheel();
+    if (p < 1) requestAnimationFrame(step);
+    else { spinning = false; $("#spinBtn").disabled = false; wheelResult(items[pick]); }
+  };
+  requestAnimationFrame(step);
+}
+function wheelResult(r) {
+  openRecipe(r.id, `Das Glücksrad sagt: <b>${esc(r.name)}</b>!`);
+}
+
+/* ---------- Render: Rezepte ---------- */
+function renderRecipes() {
+  const q = $("#q").value.trim().toLowerCase();
+  const list = R.filter(r => [...filters].every(f => f === "schnell" ? r.zeit <= 30 : r.tags.includes(f)))
+    .filter(r => !q || (r.name + " " + r.kurz + " " + r.zutaten.map(z => z.n || "").join(" ")).toLowerCase().includes(q));
+  $("#rCount").textContent = `${list.length} von ${R.length} Rezepten`;
+  $("#rgrid").innerHTML = list.length ? list.map(r => `<button class="rcard" type="button" data-open="${r.id}">
+      <img src="${img(r)}" alt="${esc(r.name)}" loading="lazy">
+      <span class="b"><span class="tags">${r.tags.map(t => `<span class="tag t-${t}">${TAGS[t]}</span>`).join("")}</span>
+      <h3>${esc(r.name)}</h3><p>${esc(r.kurz)}</p>
+      <span class="meta"><span><b>${r.zeit}</b> Min.</span><span>${r.level}</span><span>ca. ${r.kcal} kcal</span></span></span></button>`).join("")
+    : `<div class="empty" style="grid-column:1/-1">Nichts gefunden. Probier einen anderen Suchbegriff oder entferne einen Filter.</div>`;
+}
+
+/* ---------- Rezept-Detail ---------- */
+let cur = null, portions = 4, got = new Set();
+function openRecipe(id, banner = "") {
+  const r = byId[id]; if (!r) return;
+  cur = r; portions = r.portionen; got = new Set();
+  const dlg = $("#dlg");
+  dlg.innerHTML = `<button class="close" type="button" data-close aria-label="Schließen">×</button>
+    <div class="dhead"><img src="${img(r)}" alt="${esc(r.name)}"><a class="credit" href="${esc(r.bild.url)}" target="_blank" rel="noopener">Foto: ${esc(r.bild.artist)} · ${esc(r.bild.lizenz)}</a></div>
+    <div class="dbody">
+      ${banner ? `<div class="panel" style="background:var(--pop-soft);border-color:var(--pop);font-size:1.05rem">${banner}</div>` : ""}
+      <div style="display:grid;gap:8px"><div class="tags">${r.tags.map(t => `<span class="tag t-${t}">${TAGS[t]}</span>`).join("")}</div>
+        <h2>${esc(r.name)}</h2><p class="muted" style="margin:0">${esc(r.kurz)}</p>
+        <div class="meta" style="font-size:.9rem"><span>Gesamt <b>${r.zeit} Min.</b></span><span>Arbeitszeit <b>${r.aktiv} Min.</b></span><span>Schwierigkeit <b>${r.level}</b></span><span>ca. <b>${r.kcal} kcal</b> pro Portion</span></div></div>
+      <div class="dcols">
+        <div style="display:grid;gap:12px;align-content:start">
+          <div class="row"><h3 style="font-size:1.2rem">Zutaten</h3><span class="spacer"></span>
+            <div class="stepper"><button type="button" data-portion="-1" aria-label="Weniger Portionen">−</button><output id="pOut"></output><button type="button" data-portion="1" aria-label="Mehr Portionen">+</button></div></div>
+          <ul class="ing" id="ing"></ul>
+        </div>
+        <div style="display:grid;gap:12px;align-content:start"><h3 style="font-size:1.2rem">Zubereitung</h3>
+          <ol class="steps">${r.schritte.map(s => `<li><span>${esc(s)}</span></li>`).join("")}</ol></div>
+      </div>
+      <div class="dactions" id="dact"></div>
+    </div>`;
+  renderIng(); renderDActions();
+  if (!dlg.open) dlg.showModal();
+  dlg.scrollTop = 0;
+}
+function renderIng() {
+  const r = cur, f = portions / r.portionen;
+  $("#pOut").textContent = `${portions} Portion${portions === 1 ? "" : "en"}`;
+  $("#ing").innerHTML = r.zutaten.map((z, i) => z.s ? `<li class="sec">${esc(z.s)}</li>` :
+    `<li class="${got.has(i) ? "got" : ""}"><input type="checkbox" id="ing${i}" data-got="${i}" ${got.has(i) ? "checked" : ""}><label class="amt" for="ing${i}">${z.a == null ? "" : fmtAmount(z.a * f, z.u)}</label><label for="ing${i}">${esc(z.n)}</label></li>`).join("");
+}
+function renderDActions() {
+  if (!cur) return;
+  const r = cur, mine = me ? picksOf(me) : [], on = mine.includes(r.id);
+  const days = [...Array(7)].map((_, i) => addDays(new Date(), i));
+  $("#dact").innerHTML = `
+    ${me ? `<button class="btn ${on ? "pop" : ""}" type="button" data-vote="${r.id}">${on ? "Stimme zurücknehmen" : `Für heute stimmen (${esc(S.family[me].name)})`}</button>` : ""}
+    <button class="btn primary" type="button" data-cook="${r.id}">Kochmodus starten</button>
+    <button class="btn" type="button" data-shop="${r.id}">Zutaten auf die Einkaufsliste</button>
+    <span class="row" style="gap:6px"><label for="planDay" class="muted" style="font-size:.88rem">Einplanen für</label>
+      <select id="planDay">${days.map((d, i) => `<option value="${dkey(d)}">${i === 0 ? "Heute" : i === 1 ? "Morgen" : WD[d.getDay()]}, ${d.getDate()}.${d.getMonth() + 1}.</option>`).join("")}</select>
+      <button class="btn" type="button" data-plan="${r.id}">Eintragen</button></span>`;
+}
+
+/* ---------- Kochmodus ---------- */
+let cookR = null, cookI = 0, wake = null;
+function startCook(id) {
+  cookR = byId[id]; cookI = 0;
+  if ($("#dlg").open) $("#dlg").close();
+  $("#cook").hidden = false; renderCook();
+  try { navigator.wakeLock?.request("screen").then(w => wake = w).catch(() => {}); } catch {}
+}
+function renderCook() {
+  const r = cookR, n = r.schritte.length;
+  $("#cook").innerHTML = `<div class="ct"><strong style="font-family:var(--f-display);font-size:1.1rem">${esc(r.name)}</strong><div class="prog"><i style="width:${((cookI + 1) / n) * 100}%"></i></div>
+      <button class="btn" type="button" data-cookend>Beenden</button></div>
+    <div class="cs"><span class="num">Schritt ${cookI + 1} von ${n}</span><p>${esc(r.schritte[cookI])}</p></div>
+    <div class="cb"><button class="btn" type="button" data-cookstep="-1" ${cookI === 0 ? "disabled" : ""}>Zurück</button>
+      ${cookI < n - 1 ? `<button class="btn primary" type="button" data-cookstep="1">Weiter</button>` : `<button class="btn pop" type="button" data-cookend>Guten Appetit!</button>`}</div>`;
+}
+function endCook() { $("#cook").hidden = true; try { wake?.release(); } catch {} wake = null; }
+
+/* ---------- Woche ---------- */
+function renderWeek() {
+  const opts = R.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join("");
+  $("#week").innerHTML = [...Array(7)].map((_, i) => {
+    const d = addDays(new Date(), i), k = dkey(d), p = S.plan[k], r = p && byId[p.recipe];
+    return `<div class="day${i === 0 ? " is-today" : ""}">
+      <div class="dl">${i === 0 ? "Heute" : i === 1 ? "Morgen" : WD[d.getDay()]}<small>${WD[d.getDay()].slice(0, 2)}, ${d.getDate()}. ${MO[d.getMonth()].slice(0, 3)}</small></div>
+      <div class="th" style="${r ? `background-image:url('${img(r)}')` : ""}"></div>
+      <select id="plan-${k}" data-planday="${k}" aria-label="Gericht für ${WD[d.getDay()]}"><option value="">– noch offen –</option>${opts}</select>
+      <div class="act">${r ? `<button class="btn ghost" type="button" data-open="${r.id}">Rezept</button>` : ""}</div></div>`;
+  }).join("");
+  for (let i = 0; i < 7; i++) { const k = dkey(addDays(new Date(), i)); const sel = document.getElementById("plan-" + k); if (sel) sel.value = S.plan[k]?.recipe || ""; }
+}
+
+/* ---------- Einkauf ---------- */
+function renderShop() {
+  const items = Object.entries(S.shopping).map(([id, v]) => ({ id, ...v })).sort((a, b) => (a.done - b.done) || (a.ts || 0) - (b.ts || 0));
+  const open = items.filter(i => !i.done).length;
+  const b = $("#shopBadge"); b.hidden = !open; b.textContent = open;
+  $("#shopCount").textContent = items.length ? `${open} offen` : "";
+  $("#slist").innerHTML = items.length ? items.map(i => `<li class="${i.done ? "done" : ""}">
+      <input type="checkbox" id="s-${i.id}" data-check="${i.id}" ${i.done ? "checked" : ""}>
+      <label class="t" for="s-${i.id}">${esc(i.text)}${i.from ? `<small>${esc(i.from)}</small>` : ""}</label>
+      <button class="del" type="button" data-delitem="${i.id}" aria-label="Entfernen">×</button></li>`).join("")
+    : `<li class="empty" style="display:block;border:0">Die Liste ist leer. Öffne ein Rezept und tippe auf „Zutaten auf die Einkaufsliste“, oder füge oben etwas hinzu.</li>`;
+}
+async function addToShop(entries) {
+  // entries: [{recipe, factor}]
+  const agg = new Map();
+  for (const { recipe: r, factor } of entries) for (const z of r.zutaten) {
+    if (z.s || z.a == null) continue;
+    const [a, u] = toBase(z.a * factor, z.u), key = z.n.toLowerCase() + "|" + u;
+    const e = agg.get(key) || { a: 0, u, n: z.n, from: new Set() };
+    e.a += a; e.from.add(r.name); agg.set(key, e);
+  }
+  let n = 0;
+  for (const e of agg.values()) {
+    if (!(await put("shopping", uid(), { text: `${fmtAmount(e.a, e.u)} ${e.n}`, from: [...e.from].join(", "), done: false, ts: Date.now() + n }))) break;
+    n++;
+  }
+  if (n) toast(`${n} Zutaten auf die Einkaufsliste gesetzt.`);
+}
+
+/* ---------- Alles zeichnen ---------- */
+function renderAll() {
+  renderHero(); renderWho(); renderVoting(); renderRank();
+  renderWeek(); renderShop();
+  if (cur && $("#dlg").open) renderDActions();
+}
+function showTab(t) {
+  tab = t;
+  document.querySelectorAll("nav.tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === t));
+  document.querySelectorAll("section.view").forEach(s => s.hidden = s.id !== "v-" + t);
+  pref.set("tab", t);
+  if (t === "heute") drawWheel();
+  window.scrollTo({ top: 0 });
+}
+let toastT;
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 2600); }
+
+/* ---------- Aktionen ---------- */
+async function toggleVote(rid) {
+  if (!me) { toast("Tippe zuerst oben auf deinen Namen."); document.querySelector("#who").scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+  if (S.plan[today()]) { toast("Für heute ist schon entschieden. Tippe auf „Nochmal abstimmen“, um neu zu wählen."); return; }
+  const picks = picksOf(me), on = picks.includes(rid);
+  if (!on && picks.length >= MAX_VOTES) { toast(`Du hast schon ${MAX_VOTES} Stimmen vergeben. Nimm erst eine zurück.`); return; }
+  const next = on ? picks.filter(p => p !== rid) : [...picks, rid];
+  await put("votes", `${today()}_${me}`, { date: today(), member: me, picks: next });
+}
+async function decide() {
+  const t = tally(); if (!t.length) return;
+  const top = t[0].voters.length, tied = t.filter(x => x.voters.length === top);
+  if (tied.length > 1) { toast("Gleichstand! Dreht das Glücksrad."); document.querySelector(".wheelbox").scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+  await setPlan(today(), t[0].id);
+  toast(`Entschieden: ${byId[t[0].id].name}!`);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+const setPlan = (k, rid) => rid ? put("plan", k, { date: k, recipe: rid }) : del("plan", k);
+
+document.addEventListener("click", async e => {
+  const el = e.target.closest("button, [data-delmember]"); if (!el) return;
+  const d = el.dataset;
+  if (d.tab) return showTab(d.tab);
+  if ("closeinvite" in d) return $("#invite").close();
+  if (el.id === "copyLink") {
+    const inp = $("#inviteLink");
+    try { await navigator.clipboard.writeText(inp.value); toast("Link kopiert. Jetzt in die Familien-Gruppe einfügen!"); }
+    catch { inp.select(); toast("Link markiert – jetzt kopieren."); }
+    return;
+  }
+  if (el.id === "leaveFamily") { pref.set("familie", ""); pref.set("solo", ""); location.reload(); return; }
+  if (d.delmember) { e.stopPropagation(); const m = S.family[d.delmember]; if (await del("family", d.delmember)) { await del("votes", `${today()}_${d.delmember}`); toast(`${m?.name || "Person"} entfernt.`); } return; }
+  if (d.me) { if (editFam) return; me = d.me === me ? "" : d.me; pref.set("me", me); renderAll(); return; }
+  if (d.vote) return toggleVote(d.vote);
+  if (d.open) return openRecipe(d.open);
+  if (d.cook) return startCook(d.cook);
+  if (d.cookstep) { cookI = Math.max(0, Math.min(cookR.schritte.length - 1, cookI + +d.cookstep)); return renderCook(); }
+  if ("cookend" in d) return endCook();
+  if ("close" in d) return $("#dlg").close();
+  if (d.portion) { portions = Math.max(1, Math.min(20, portions + +d.portion)); return renderIng(); }
+  if (d.shop) return addToShop([{ recipe: byId[d.shop], factor: portions / byId[d.shop].portionen }]);
+  if (d.plan) { const k = $("#planDay").value; if (await setPlan(k, d.plan)) toast(`${byId[d.plan].name} ist eingeplant.`); return; }
+  if (d.delitem) return del("shopping", d.delitem);
+  if (el.id === "editFam") { editFam = !editFam; return renderWho(); }
+  if (el.id === "emojiBtn") { emojiIdx = (emojiIdx + 1) % EMOJIS.length; el.textContent = EMOJIS[emojiIdx]; return; }
+  if (el.id === "decideBtn") return decide();
+  if (el.id === "undecide") return setPlan(today(), null);
+  if (el.id === "spinBtn") return spin();
+  if (el.id === "fillWeek") {
+    const used = new Set(Object.values(S.plan).map(p => p.recipe)); let n = 0;
+    for (let i = 0; i < 7; i++) {
+      const k = dkey(addDays(new Date(), i)); if (S.plan[k]) continue;
+      const pool = R.filter(r => !used.has(r.id)); const r = (pool.length ? pool : R)[Math.floor(Math.random() * (pool.length || R.length))];
+      used.add(r.id); if (!(await setPlan(k, r.id))) break; n++;
+    }
+    return toast(n ? `${n} Tage gefüllt.` : "Alle Tage sind schon verplant.");
+  }
+  if (el.id === "weekShop") {
+    const entries = [...Array(7)].map((_, i) => S.plan[dkey(addDays(new Date(), i))]).filter(p => p && byId[p.recipe]).map(p => ({ recipe: byId[p.recipe], factor: 1 }));
+    if (!entries.length) return toast("Plane zuerst ein paar Gerichte ein.");
+    return addToShop(entries);
+  }
+  if (el.id === "clearDone") { for (const [id, v] of Object.entries(S.shopping)) if (v.done) await del("shopping", id); return; }
+  if (el.id === "clearAll") {
+    if (el.dataset.armed) { for (const id of Object.keys(S.shopping)) await del("shopping", id); el.textContent = "Ganze Liste leeren"; delete el.dataset.armed; return; }
+    el.dataset.armed = "1"; el.textContent = "Wirklich alles löschen? Nochmal tippen"; setTimeout(() => { el.textContent = "Ganze Liste leeren"; delete el.dataset.armed; }, 4000); return;
+  }
+  if (el.classList.contains("fchip")) { const f = d.f; filters.has(f) ? filters.delete(f) : filters.add(f); el.setAttribute("aria-pressed", filters.has(f)); return renderRecipes(); }
+});
+document.addEventListener("change", e => {
+  const d = e.target.dataset;
+  if (d.got != null) { const i = +d.got; e.target.checked ? got.add(i) : got.delete(i); e.target.closest("li").classList.toggle("got", e.target.checked); }
+  if (d.check) { const it = S.shopping[d.check]; if (it) put("shopping", d.check, { ...it, done: e.target.checked }); }
+  if (d.planday) setPlan(d.planday, e.target.value || null);
+});
+$("#q").addEventListener("input", renderRecipes);
+$("#addPerson").addEventListener("submit", async e => {
+  e.preventDefault();
+  const name = $("#personName").value.trim(); if (!name) return;
+  const id = uid();
+  if (await put("family", id, { name, emoji: EMOJIS[emojiIdx], ts: Date.now() })) {
+    $("#personName").value = ""; emojiIdx = (emojiIdx + 1) % EMOJIS.length; $("#emojiBtn").textContent = EMOJIS[emojiIdx];
+    if (!me) { me = id; pref.set("me", me); }
+    renderAll();
+  }
+});
+$("#addItem").addEventListener("submit", async e => {
+  e.preventDefault();
+  const text = $("#itemText").value.trim(); if (!text) return;
+  if (await put("shopping", uid(), { text, from: "", done: false, ts: Date.now() })) $("#itemText").value = "";
+});
+$("#dlg").addEventListener("click", e => { if (e.target === $("#dlg")) $("#dlg").close(); });
+$("#dlg").addEventListener("close", () => { cur = null; });
+document.addEventListener("keydown", e => {
+  if ($("#cook").hidden) return;
+  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); cookI = Math.min(cookR.schritte.length - 1, cookI + 1); renderCook(); }
+  if (e.key === "ArrowLeft") { cookI = Math.max(0, cookI - 1); renderCook(); }
+  if (e.key === "Escape") endCook();
+});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawWheel);
+new MutationObserver(drawWheel).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+if (document.fonts) document.fonts.ready.then(drawWheel);
+
+/* ---------- Start ---------- */
+loadLocal();
+renderRecipes();
+renderAll();
+showTab(["heute", "rezepte", "woche", "einkauf"].includes(pref.get("tab", "heute")) ? pref.get("tab", "heute") : "heute");
+connect();
+})();
+</script>

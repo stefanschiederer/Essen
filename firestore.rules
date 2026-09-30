@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Jede Familie hat ihren eigenen Bereich unter familien/<Familien-Code>/…
+    // Wer den Code kennt, darf lesen und schreiben. Die Liste aller Familien kann niemand abrufen.
+    match /familien/{code}/{collection}/{docId} {
+      allow read, write: if code.size() >= 12
+        && collection in ['family', 'votes', 'plan', 'shopping'];
+    }
+  }
+}
